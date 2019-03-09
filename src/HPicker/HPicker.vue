@@ -1,10 +1,12 @@
 <template>
   <div class="h-picker">
-    <div class="h-picker-container">
-      <div ref="moveItemsMask" class="h-picker-mask" 
+    <div class="h-picker-container" :style="containerStyle">
+      <div ref="moveItemsMask" class="h-picker-mask" :style="pickerMaskStyle"
       @touchstart="handleStart" @touchmove="handleMove" @touchend="handleEnd"></div>
-      <ul ref="moveItemsEl" class="h-picker-move-items" style="transform: translate3d(0,0,0)">
-        <li :style="itemStyle" v-for="(item,index) in data" :key="index">{{item.label}}</li>
+      <ul ref="moveItemsEl" class="h-picker-move-items" :style="moveItemsStyle">
+        <li :style="itemStyle" v-for="(item,index) in data" :key="index">
+          <slot :data="item" :index="index">{{item.label}}</slot>
+        </li>
       </ul>
       <div :style="itemBoxStyle" class="selected-item-box"></div>
     </div>
@@ -21,7 +23,11 @@ export default {
     },
     itemHeight: { // 每个选择项的高度
       type: Number,
-      default: 40
+      default: 37
+    },
+    count: { // 选择项的可见个数
+      type: Number,
+      default: 5
     }
   },
   data(){
@@ -33,12 +39,6 @@ export default {
       ismoving : false,    // 是否正在移动选项列表，解决滑动卡顿
       selected_index : 0,  //当前选中项索引
   
-    }
-  },
-  watch: {
-    selected_index(index){
-      console.log( this.data[index] );
-      this.$emit("change" , this.data[index] , index )
     }
   },
   computed: {
@@ -53,7 +53,32 @@ export default {
     itemBoxStyle(){
       return {
         height: this.itemHeight + 'px',
+        top: this.padding + 'px',
       }
+    },
+    containerStyle(){
+      return {
+        height: this.height + 'px',
+      }
+    },
+    moveItemsStyle(){
+      return {
+        transform: 'translate3d(0,0,0)',
+        paddingTop: this.padding + 'px',
+        fontSize: '1em',
+      }
+    },
+    pickerMaskStyle(){
+      const h = this.padding - this.itemHeight / 2
+      return {
+        backgroundSize: `100% ${h}px,100% ${h}px`,
+      }
+    },
+    padding(){
+      return (Math.ceil( this.count / 2 ) - 1) * this.itemHeight
+    },
+    height(){
+      return this.itemHeight * this.count
     }
   },
   methods: {
@@ -100,7 +125,8 @@ export default {
         this.selected_index = this.$refs.moveItemsEl.children.length -1;
       }
 
-      console.log("当前选择的是第 " + (this.selected_index + 1) + " 项");
+      //响应已选变化
+      this.$emit("change" , this.data[this.selected_index] , this.selected_index )
 
       this.$refs.moveItemsEl.style.transform = "translate3d(0,"+ this.curr_dis_end +"px,0)"
       this.$refs.moveItemsEl.style.transition = "transform .6s cubic-bezier(0.68, -0.55, 0.27, 1.55)"
@@ -118,7 +144,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="css" scoped>
 
 html {
   touch-action: manipulation;
@@ -127,23 +153,26 @@ body{
   margin: 0;
   padding: 0;
 }
-
 ul,li{
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+.h-picker{
+  background-color: #fff;
+}
+
 .h-picker-container {
   width: 95%;
-  height: 400px;
+  /* height: 400px; */
   position: relative;
   overflow: hidden;
   margin: 0 auto;
 }
 
 .h-picker-container > ul.h-picker-move-items{
-  padding: 160px 0;
+  /* padding: 160px 0; */
   width: 100%;
 }
 
@@ -154,11 +183,12 @@ ul,li{
   /* line-height: 40px; */
 }
 
+
 .h-picker-container > .selected-item-box {
   width: 100%;
   /* height: 40px; */
   position: absolute;
-  top: 160px;
+  /* top: 160px; */
   left: 0;
   z-index: 2;
   border-top: 1px solid #bbb;
@@ -172,10 +202,10 @@ ul,li{
   top: 0;
   left: 0;
   z-index: 3;
-  background-image: linear-gradient( rgba(255,255,255,.95) , rgba(255,255,255,.6) ),
+  background-image: linear-gradient( rgba(255,255,255,.95) , rgba(255,255,255,.4) ),
                     linear-gradient( 0deg, rgba(255,255,255,.95) , rgba(255,255,255,.4));  
   background-position: top, bottom;
-  background-size: 100% 140px , 100% 180px;           
+  /* background-size: 100% 140px , 100% 180px; */
   background-repeat: no-repeat;
 }
 

@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <h-picker :data="list"></h-picker>
+    <h-picker :data="list" @change="handleChange">
+      <!-- 2.5.x 作用域插槽写法 slot-scope-->
+      <!-- <div slot-scope="{ data , index }">{{ '自定义的项' + index}}</div> -->
+      <!-- 2.6.x 作用域插槽写法 v-slot-->
+      <template v-slot:default="{ data , index }">{{ `自定义的项${index + 1}`}}</template>
+    </h-picker>
   </div>
 </template>
 
@@ -35,6 +40,11 @@ export default {
         {label: "测试文字项19"},
         {label: "测试文字项20"},
       ] 
+    }
+  },
+  methods: {
+    handleChange( data , index){
+      console.log( data , index);
     }
   }
 };
