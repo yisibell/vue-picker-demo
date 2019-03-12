@@ -4,7 +4,7 @@
     <h-slide-picker
       title="单项滑动选择器" 
       :visible.sync="visible" 
-      :data="list"
+      :data-list="list"
       @confirm="handleConfirm" 
       @cancel="handleCancel"></h-slide-picker>
   </div>

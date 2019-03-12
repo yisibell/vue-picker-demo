@@ -3,7 +3,11 @@
     
     <h-dialog :visible.sync="isvisible" :title="title" @confirm="handleConfirm" @cancel="handleCancel">
       <slot name="title"><div slot="title">{{title}}</div></slot>
-      <h-picker :data="data" :item-height="itemHeight" :count="count" @change="handleChange"></h-picker>
+      <h-picker :data="dataList" :item-height="itemHeight" :count="count" @change="handleChange">
+        <template v-slot="{data,index}">
+          <slot :curr="data" :index="index">{{data.label}}</slot>
+        </template>
+      </h-picker>
     </h-dialog>
 
   </div>
@@ -24,7 +28,7 @@ export default {
       type: Boolean,
       default: false
     },
-    data: {  //待选数据
+    dataList: {  //待选数据
       type: Array,
       default(){return []}
     },
