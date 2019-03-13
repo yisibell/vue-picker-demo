@@ -7,32 +7,20 @@
 
 ## 文档说明
 
-<a href="http://hongwenqing.com/2019/01/01/vue/h-ui/h-picker移动端滑动单选组件/#more">h-picker文档</a>
+- <a href="http://hongwenqing.com/2019/01/01/vue/h-ui/h-picker移动端滑动单选组件/#more">h-picker文档</a>
 
-## Project setup
+- <a href="http://hongwenqing.com/2019/03/01/vue/h-ui/h-slide-picker移动端滑动单选弹出层/#more">h-slide-picker文档</a>
+
+
+## 构建
+
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 启动测试
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
