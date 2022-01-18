@@ -5,13 +5,6 @@
 
 ![h-slide-picker](./src/assets/h_slide_picker.gif)
 
-## 文档说明
-
-- <a href="http://hongwenqing.com/2019/01/01/vue/h-ui/h-picker移动端滑动单选组件/#more">h-picker文档</a>
-
-- <a href="http://hongwenqing.com/2019/03/01/vue/h-ui/h-slide-picker移动端滑动单选弹出层/#more">h-slide-picker文档</a>
-
-
 ## 构建
 
 ```
